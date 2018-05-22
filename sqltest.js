@@ -4,12 +4,12 @@ var Request = require('tedious').Request
 // Create connection to database
 var config =
    {
-     userName: 'VoidDbApiUser', // update me
-     password: 'G3tVo1dD@ta', // update me
-     server: 'dev-websql.database.windows.net', // update me
+     userName: process.env.DB_USERNAME,
+     password: process.env.DB_PASSWORD,
+     server: process.env.DB_SERVER,
      options:
         {
-          database: 'web-dev-voiddb', // update me
+          database: process.env.DB_DATABASE, // update me
           encrypt: true
         }
    }
