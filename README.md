@@ -11,3 +11,5 @@ You'll need to have the following settings, at minimum, in your local `.env` fil
 - `DB_DATABASE`=*xxx*
 - `DB_USERNAME`=*xxx*
 - `DB_PASSWORD`=*xxx*
+
+Note that you can copy the included `.env.example` to `.env` to begin with.

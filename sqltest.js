@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 var Connection = require('tedious').Connection
 var Request = require('tedious').Request
 
@@ -22,8 +24,7 @@ connection.on('connect', function (err) {
   } else {
     queryDatabase()
   }
-}
-)
+})
 
 function queryDatabase () {
   console.log('Reading rows from the Table...')
