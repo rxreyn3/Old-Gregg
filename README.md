@@ -3,6 +3,14 @@
 # Standup Gregg
 A slack bot integration for standups.
 
+## Install
+
+- Clone the repo
+- Run `npm install`
+- Install globally:
+    - nodemon `npm i nodemon -g`
+    - localtunnel `npm i localtunnel -g`
+
 ## Application Settings
 
 You'll need to have the following settings, at minimum, in your local `.env` file or application settings on the cloud:
