@@ -5,12 +5,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser'); 
 
-var createSlackEventAdapter = require('@slack/events-api').createSlackEventAdapter;
-var slackEvents = createSlackEventAdapter(process.env.SLACK_VERIFICATION_TOKEN);
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var standupRouter = require('./routes/standup')
+var standupRouter = require('./routes/standup');
+
+var slackEventHandler = require('./slack-event-handler');
 
 var app = express();
 
@@ -30,12 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/standup', standupRouter);
-app.use('/slack/events', slackEvents.expressMiddleware());
-
-slackEvents.on('message', (event)=> {
-  console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`);
-});
-slackEvents.on('error', console.error);
+app.use('/slack/events', slackEventHandler.getEventHandler());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
