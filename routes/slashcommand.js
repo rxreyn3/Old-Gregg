@@ -1,14 +1,14 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 
 router.post('/', function (req, res) {
-    var data = { 
-        response_type: 'in_channel', // public to the channel 
-        text: '302: Found', 
-        attachments:[ { 
-          image_url: 'https://http.cat/302.jpg' 
-        } ]}; 
-    res.json(data);
+  var data = {
+    response_type: 'in_channel', // public to the channel
+    text: '302: Found',
+    attachments: [ {
+      image_url: 'https://http.cat/302.jpg'
+    } ]}
+  res.json(data)
 })
 
-module.exports = router;
+module.exports = router
