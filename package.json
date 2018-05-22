@@ -2,9 +2,6 @@
   "name": "standup-gregg",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "start": "node server"
-  },
   "dependencies": {
     "@slack/client": "^4.2.2",
     "@slack/events-api": "^1.0.1",
@@ -20,5 +17,9 @@
   },
   "engines": {
     "node": "~0.10.0 || ~4.2.0"
-  }
+  },
+  "scripts": {
+    "start": "node server",
+    "debug": "nodemon --inspect server"
+}
 }
