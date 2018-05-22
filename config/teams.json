@@ -1,0 +1,15 @@
+{
+    "teams":
+    [
+        {
+            "name" : "Gold Team",
+            "channel" : "@ryan.reynolds",
+            "members" : [
+                {
+                    "username" : "ryan",
+                    "userid" : "@ryan.reynolds"
+                }
+            ]
+        }
+    ]
+}
