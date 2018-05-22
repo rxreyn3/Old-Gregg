@@ -6,6 +6,8 @@
     "start": "node server"
   },
   "dependencies": {
+    "@slack/client": "^4.2.2",
+    "@slack/events-api": "^1.0.1",
     "body-parser": "^1.18.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
