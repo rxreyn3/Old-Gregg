@@ -3,7 +3,9 @@
 /**
  * Module dependencies.
  */
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').load()
+}
 var app = require('./app')
 var debug = require('debug')('standup-gregg:server')
 var http = require('http')
