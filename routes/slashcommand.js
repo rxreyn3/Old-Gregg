@@ -1,6 +1,6 @@
 var express = require('express')
 var router = express.Router()
-var azure = require('../azure-config-handler')
+var azure = require('../azure-config-util')
 
 router.post('/', function (req, res) {
   if (req.body.text === 'init') {
