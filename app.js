@@ -6,6 +6,7 @@ var logger = require('morgan')
 var bodyParser = require('body-parser')
 
 var indexRouter = require('./routes/index')
+var standupRouter = require('./routes/standup')
 var slashcommandRouter = require('./routes/slashcommand')
 
 var slackEventHandler = require('./slack-event-handler')
@@ -30,6 +31,7 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/', indexRouter)
+app.use('/standup', standupRouter)
 app.use('/slashcommand', slashcommandRouter)
 app.use('/slack/events', slackEventHandler.getEventHandler())
 

@@ -18,7 +18,7 @@ exports.createContainer = function () {
   })
 }
 
-exports.upload = function () {
+exports.uploadDefault = function () {
   return new Promise((resolve, reject) => {
     blobService.createBlockBlobFromLocalFile(containerName, blobName, sourceFilePath, err => {
       if (err) {

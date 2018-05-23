@@ -35,7 +35,7 @@ function handleInitCommand () {
       return 'Team already exists.'
     } else {
       console.log('Team does not exist, creating it now.')
-      return azure.upload()
+      return azure.uploadDefault()
     }
   }).catch(reason => {
     return reason
