@@ -10,6 +10,12 @@ A slack bot integration for standups.
 - Install globally:
     - nodemon `npm i nodemon -g`
     - localtunnel `npm i localtunnel -g`
+- Deploy to Azure
+- Manually add app to slack team https://api.slack.com/apps
+    - Fill out basic information
+    - Add slash command for `/gregg`
+    - **TODO** Add add to slack button
+    - **TODO** Explain Bot setup/event init
 
 ## Application Settings
 
