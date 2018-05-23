@@ -12,7 +12,7 @@ exports.createContainer = function () {
       if (err) {
         reject(err)
       } else {
-        resolve({ message: `Container '${containerName}' created` })
+        resolve(`Container '${containerName}' created`)
       }
     })
   })
@@ -24,7 +24,7 @@ exports.uploadDefault = function () {
       if (err) {
         reject(err)
       } else {
-        resolve({ message: `Upload of '${blobName}' complete` })
+        resolve(`Upload of '${blobName}' complete`)
       }
     })
   })
@@ -36,7 +36,7 @@ exports.upload = function (blob) {
       if (err) {
         reject(err)
       } else {
-        resolve({ message: `Upload of '${blobName}' complete` })
+        resolve(`Upload of '${blobName}' complete`)
       }
     })
   })
@@ -60,7 +60,7 @@ exports.list = function () {
       if (err) {
         reject(err)
       } else {
-        resolve({ message: `Items in container '${containerName}':`, data: data })
+        resolve(`Items in container '${containerName}'`)
       }
     })
   })

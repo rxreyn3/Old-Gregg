@@ -60,7 +60,7 @@ function handleAddCommand (commandText) {
     var teamname = cmdParts[2]
     var json = JSON.parse(response)
     linq.from(json.teams).forEach(function (team) {
-      if (team.name === team) {
+      if (team.name === teamname) {
         var exists = linq.from(team.members).any(function (member) { return member.userid === userid })
         if (!exists) {
           console.log('Adding UserId: ' + userid + ' to Team: ' + teamname)

@@ -12,14 +12,17 @@ exports.getEventHandler = function () {
 
 slackEvents.on('message', (event) => {
   console.log(`Received a message event: user ${event.user} in channel ${event.channel} says ${event.text}`)
-  if (event.user === undefined) return
-  web.chat.postMessage({
-    channel: event.channel,
-    text: 'Hello my little man peach.'
-  }).then((res) => {
-    // `res` contains information about the posted message
-    console.log('Message sent: ', res.ts)
-  }).catch(console.error)
+  if (event.user === undefined) {
+    console.log('Ignoring event: ' + event)
+  } else {
+    web.chat.postMessage({
+      channel: event.channel,
+      text: 'Hello my little man peach.'
+    }).then((res) => {
+      // `res` contains information about the posted message
+      console.log('Message sent: ', res.ts)
+    }).catch(console.error)
+  }
 })
 
 slackEvents.on('error', console.error)
