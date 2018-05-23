@@ -3,21 +3,30 @@ var router = express.Router()
 var azure = require('../azure-config-util')
 
 router.post('/', function (req, res) {
-  if (req.body.text === 'init') {
-    handleInitCommand().then(response => {
-      res.send(response)
+  if (req.body.text.startsWith('init')) {
+    handleInitCommand().then(data => {
+      sendResponse(res, data)
+    })
+  } else if (req.body.text.startsWith('show')) {
+    handleShowCommand().then(data => {
+      sendResponse(res, data)
+    })
+  } else if (req.body.text.startsWith('add')) {
+    handleAddCommand(req.body.text).then(data => {
+      sendResponse(res, data)
     })
   } else {
-    res.json(req.body)
+    sendResponse(res, req.body)
   }
-  /*   var data = {
-    response_type: 'in_channel', // public to the channel
-    text: '302: Found',
-    attachments: [ {
-      image_url: 'https://http.cat/302.jpg'
-    } ]}
-  res.json(data) */
 })
+
+function sendResponse (res, data) {
+  var message = {
+    response_type: 'in_channel', // public to the channel
+    text: data
+  }
+  res.json(message)
+}
 
 function handleInitCommand () {
   return azure.list().then(response => {
@@ -31,6 +40,24 @@ function handleInitCommand () {
     return reason
   }).then(response => {
     return response
+  })
+}
+
+function handleShowCommand () {
+  return azure.download().then(response => {
+    return response
+  }).catch(reason => {
+    return reason
+  })
+}
+
+function handleAddCommand (commandText) {
+  return azure.download().then(response => {
+    // var cmdParts = commandText.split(' ')
+    var teams = JSON.parse(response)
+    return teams
+  }).catch(reason => {
+    return reason
   })
 }
 

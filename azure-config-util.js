@@ -32,11 +32,11 @@ exports.upload = function () {
 
 exports.download = function () {
   return new Promise((resolve, reject) => {
-    blobService.getBlobToLocalFile(containerName, blobName, sourceFilePath, err => {
+    blobService.getBlobToText(containerName, blobName, (err, blob) => {
       if (err) {
         reject(err)
       } else {
-        resolve({ message: `Download of '${blobName}' complete` })
+        resolve(blob)
       }
     })
   })
