@@ -2,11 +2,10 @@
     "teams":
     [
         {
-            "name" : "Gold Team",
+            "name" : "systems",
             "channel" : "@ryan.reynolds",
             "members" : [
                 {
-                    "username" : "ryan",
                     "userid" : "@ryan.reynolds"
                 }
             ]

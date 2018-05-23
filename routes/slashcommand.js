@@ -1,6 +1,7 @@
 var express = require('express')
 var router = express.Router()
 var azure = require('../azure-config-util')
+var linq = require('linq')
 
 router.post('/', function (req, res) {
   if (req.body.text.startsWith('init')) {
@@ -51,13 +52,29 @@ function handleShowCommand () {
   })
 }
 
+// add @userid team
 function handleAddCommand (commandText) {
   return azure.download().then(response => {
-    // var cmdParts = commandText.split(' ')
-    var teams = JSON.parse(response)
-    return teams
+    var cmdParts = commandText.split(' ')
+    var userid = cmdParts[1]
+    var teamname = cmdParts[2]
+    var json = JSON.parse(response)
+    linq.from(json.teams).forEach(function (team) {
+      if (team.name === team) {
+        var exists = linq.from(team.members).any(function (member) { return member.userid === userid })
+        if (!exists) {
+          console.log('Adding UserId: ' + userid + ' to Team: ' + teamname)
+          team.members.push({username: userid, userid: userid})
+        } else {
+          console.log('UserId: ' + userid + ' already exists on Team: ' + teamname)
+        }
+      }
+    })
+    return azure.upload(JSON.stringify(json, null, 2))
   }).catch(reason => {
     return reason
+  }).then(response => {
+    return response
   })
 }
 

@@ -30,6 +30,18 @@ exports.upload = function () {
   })
 }
 
+exports.upload = function (blob) {
+  return new Promise((resolve, reject) => {
+    blobService.createBlockBlobFromText(containerName, blobName, blob, err => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve({ message: `Upload of '${blobName}' complete` })
+      }
+    })
+  })
+}
+
 exports.download = function () {
   return new Promise((resolve, reject) => {
     blobService.getBlobToText(containerName, blobName, (err, blob) => {
