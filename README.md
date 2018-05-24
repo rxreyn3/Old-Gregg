@@ -1,6 +1,6 @@
 ![Alt text](public/images/gregg.png?raw=true "Old Gregg")
 
-# Standup Gregg
+# Old Gregg
 A slack bot integration for standups.
 
 ## Install
