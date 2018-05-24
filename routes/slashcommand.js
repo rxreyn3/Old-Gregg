@@ -150,7 +150,9 @@ function quotes () {
     'Wanna come to a club where people wee on each other?',
     'I like you. What do you think of me?',
     'Don\'t lie to me, boy.',
-    'I know what you\'re thinkin. Here comes Old Greg, he\'s a scaly manfish. You don\'t know me. You don\'t know what I got. I got somethin to show ya.'
+    'I know what you\'re thinkin. Here comes Old Greg, he\'s a scaly manfish. You don\'t know me. You don\'t know what I got. I got somethin to show ya.',
+    'Greg\'s place. Y-you\'ve been asleep, do you want a little drinky? I\'ll get ya a drink.',
+    'Do ya like Bailey\'s? Mmm, creamy, salty cream and beige.'
   ]
   var item = quotes[Math.floor(Math.random() * quotes.length)]
   return item
