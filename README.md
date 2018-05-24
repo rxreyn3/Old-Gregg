@@ -55,3 +55,7 @@ To setup continous deployment to your azure app service, follow these instructio
 ## Local Testing
 
 - TODO
+
+## Quote System
+
+- TODO
