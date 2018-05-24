@@ -22,7 +22,7 @@ router.post('/', function (req, res) {
       sendResponse(res, data)
     })
   } else if (req.body.text.startsWith('report')) {
-    handleReportCommand(req.body.user_name, req.body.text).then(data => {
+    handleReportCommand(req.body.user_name, req.body.user_id, req.body.text).then(data => {
       sendResponse(res, data)
     })
   } else {
@@ -129,23 +129,55 @@ function getUserIdForName (username) {
   })
 }
 
-function handleReportCommand (username, commandText) {
+function handleReportCommand (username, userid, commandText) {
   return new Promise((resolve, reject) => {
-    console.log(username + ' : ' + commandText)
-    var channel = findChannelForUser(username).then(team => {
-      console.log('Found user in team: ' + team.name)
+    console.log('Incoming report from: ' + username + ' : ' + userid + ' : ' + commandText)
+    var channel = findChannelForUser(userid).then(team => {
+      var message = commandText.replace('report ','')
+      webChat(team.channel, '`' + username + '` Has the following report: ```' + message + '```')
+      resolve(quotes())
+    }).catch(reason => {
+      reject(reason)
     })
+  }).catch(reason => {
+    return reason
   })
 }
 
-function findChannelForUser (username) {
-  return azure.download().then(response => {
-    var json = JSON.parse(response)
-    linq.from(json.teams).forEach(function (team) {
-      var exists = linq.from(team.members).any(function (member) { return member.userid === username })
-      if(exists) return team
+function quotes () {
+  var quotes = [ 
+    'I\'m Old Greg.', 
+  'Wanna come to a club where people wee on each other?',
+  'I like you. What do you think of me?',
+  'Don\'t lie to me, boy.',
+  'I know what you\'re thinkin. Here comes Old Greg, he\'s a scaly manfish. You don\'t know me. You don\'t know what I got. I got somethin to show ya.'
+]
+  var item = quotes[Math.floor(Math.random()*quotes.length)];
+  return item
+}
+
+function webChat(channel, message){
+  web.chat.postMessage({
+    channel: channel,
+    text: message
+  }).then((res) => {
+    console.log('Message sent: ', res.ts)
+  }).catch(console.error)
+}
+
+function findChannelForUser (userid) {
+  return new Promise((resolve, reject) => {
+    azure.download().then(response => {
+      var json = JSON.parse(response)
+      linq.from(json.teams).forEach(function (team) {
+        var exists = linq.from(team.members).any(function (member) { return member.userid === userid })
+        if(exists) { 
+          resolve(team)
+        } else {
+          reject('Unable to locate member in team.')
+        }
+      })
     })
-    return null
   })
 }
 
