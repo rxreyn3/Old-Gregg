@@ -8,7 +8,7 @@ var token = process.env.SLACK_TOKEN
 var web = new WebClient(token)
 
 router.post('/', function (req, res) {
-  console.log('Request Body',req.body)
+  console.log('Request Body', req.body)
   if (req.body.text.startsWith('init')) {
     handleInitCommand().then(data => {
       sendResponse(res, data)
@@ -59,7 +59,7 @@ function handleShowCommand () {
     var json = JSON.parse(response)
     linq.from(json.teams).forEach(function (team) {
       linq.from(team.members).forEach(function (member) {
-        sb += 'Team: `' + team.name +  '`Name: `' + member.username + '` ID: `' + member.userid + '`\r\n'
+        sb += 'Team: `' + team.name + '`Name: `' + member.username + '` ID: `' + member.userid + '`\r\n'
       })
     })
     return sb
@@ -68,8 +68,8 @@ function handleShowCommand () {
   })
 }
 
-var errHandler = function(err) {
-  console.log(err);
+var errHandler = function (err) {
+  console.log(err)
 }
 
 // add @userid team
@@ -91,7 +91,7 @@ function handleAddCommand (commandText) {
             resolve(azure.upload(JSON.stringify(config, null, 2)))
           } else {
             console.log('UserId: ' + user.id + ' already exists on Team: ' + teamname)
-            reject('User already exists on team.')
+            reject(new Error('User already exists on team.'))
           }
         }
       })
@@ -103,27 +103,27 @@ function handleAddCommand (commandText) {
   })
 }
 
-function getUserListAndConfig(username){
-  var userPromise = getUserIdForName(username);
-  var configPromise = azure.download();
+function getUserListAndConfig (username) {
+  var userPromise = getUserIdForName(username)
+  var configPromise = azure.download()
 
-  userPromise.then(function(result) {
-    console.log('User Info: ',result)
-  }, errHandler);
+  userPromise.then(function (result) {
+    console.log('User Info: ', result)
+  }, errHandler)
 
-  configPromise.then(function(result) {
-    console.log('Config: ',result)
-  }, errHandler);
+  configPromise.then(function (result) {
+    console.log('Config: ', result)
+  }, errHandler)
 
-  return Promise.all([userPromise, configPromise]).then(function([userResult, configResult]){
+  return Promise.all([userPromise, configPromise]).then(function ([userResult, configResult]) {
     return { user: userResult, config: JSON.parse(configResult) }
   }).catch(errHandler)
 }
 
 function getUserIdForName (username) {
-  username = username.replace('@','')
+  username = username.replace('@', '')
   return web.users.list().then((res) => {
-    var user = linq.from(res.members).single(function (member) { return member.name === username})
+    var user = linq.from(res.members).single(function (member) { return member.name === username })
     console.log('Discovered userid: ' + user.id + ' for user: ' + user.name)
     return user
   })
@@ -132,8 +132,8 @@ function getUserIdForName (username) {
 function handleReportCommand (username, userid, commandText) {
   return new Promise((resolve, reject) => {
     console.log('Incoming report from: ' + username + ' : ' + userid + ' : ' + commandText)
-    var channel = findChannelForUser(userid).then(team => {
-      var message = commandText.replace('report ','')
+    findChannelForUser(userid).then(team => {
+      var message = commandText.replace('report ', '')
       webChat(team.channel, '`' + username + '` Has the following report: ```' + message + '```')
       resolve(quotes())
     }).catch(reason => {
@@ -145,18 +145,18 @@ function handleReportCommand (username, userid, commandText) {
 }
 
 function quotes () {
-  var quotes = [ 
-    'I\'m Old Greg.', 
-  'Wanna come to a club where people wee on each other?',
-  'I like you. What do you think of me?',
-  'Don\'t lie to me, boy.',
-  'I know what you\'re thinkin. Here comes Old Greg, he\'s a scaly manfish. You don\'t know me. You don\'t know what I got. I got somethin to show ya.'
-]
-  var item = quotes[Math.floor(Math.random()*quotes.length)];
+  var quotes = [
+    'I\'m Old Greg.',
+    'Wanna come to a club where people wee on each other?',
+    'I like you. What do you think of me?',
+    'Don\'t lie to me, boy.',
+    'I know what you\'re thinkin. Here comes Old Greg, he\'s a scaly manfish. You don\'t know me. You don\'t know what I got. I got somethin to show ya.'
+  ]
+  var item = quotes[Math.floor(Math.random() * quotes.length)]
   return item
 }
 
-function webChat(channel, message){
+function webChat (channel, message) {
   web.chat.postMessage({
     channel: channel,
     text: message
@@ -171,10 +171,10 @@ function findChannelForUser (userid) {
       var json = JSON.parse(response)
       linq.from(json.teams).forEach(function (team) {
         var exists = linq.from(team.members).any(function (member) { return member.userid === userid })
-        if(exists) { 
+        if (exists) {
           resolve(team)
         } else {
-          reject('Unable to locate member in team.')
+          reject(new Error('Unable to locate member in team.'))
         }
       })
     })
