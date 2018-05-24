@@ -30,7 +30,7 @@ function notifyTeamMembers (team) {
       username: 'Old Gregg',
       icon_url: gregg,
       channel: member.userid,
-      text: 'Please start your standup report.'
+      text: 'Please start your standup report by typing:\r\n`/gregg report The details of your report here`'
     }).then((res) => {
       console.log('Message sent: ', res.ts)
     }).catch(console.error)

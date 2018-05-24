@@ -1,14 +1,18 @@
 {
-    "teams":
-    [
+  "teams": [
+    {
+      "name": "systems",
+      "channel": "@ryan.reynolds",
+      "members": [
         {
-            "name" : "systems",
-            "channel" : "@ryan.reynolds",
-            "members" : [
-                {
-                    "userid" : "@ryan.reynolds"
-                }
-            ]
+          "username": "michael",
+          "userid": "U0LJCM4CC"
+        },
+        {
+          "username": "ryan.reynolds",
+          "userid": "U4ZHBQZ3P"
         }
-    ]
+      ]
+    }
+  ]
 }
