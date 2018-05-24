@@ -46,7 +46,14 @@ function handleInitCommand () {
 
 function handleShowCommand () {
   return azure.download().then(response => {
-    return response
+    var sb = ''
+    var json = JSON.parse(response)
+    linq.from(json.teams).forEach(function (team) {
+      linq.from(team.members).forEach(function (member) {
+        sb += 'Team: `' + team.name + '` Member: `' + member.userid + '`\r\n'
+      })
+    })
+    return sb
   }).catch(reason => {
     return reason
   })
@@ -64,7 +71,7 @@ function handleAddCommand (commandText) {
         var exists = linq.from(team.members).any(function (member) { return member.userid === userid })
         if (!exists) {
           console.log('Adding UserId: ' + userid + ' to Team: ' + teamname)
-          team.members.push({username: userid, userid: userid})
+          team.members.push({userid: userid})
         } else {
           console.log('UserId: ' + userid + ' already exists on Team: ' + teamname)
         }
