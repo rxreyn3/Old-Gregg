@@ -8,16 +8,19 @@ var token = process.env.SLACK_TOKEN
 var gregg = process.env.OLD_GREGG
 var web = new WebClient(token)
 
-router.get('/', function (req, res, next) {
-  callStandupReports()
-  res.send('Standup Started')
+router.get('/:team', function (req, res, next) {
+  callStandupReports(req.params.team).then(response => {
+    res.send('Standup Started')
+  })
 })
 
-function callStandupReports () {
-  azure.download().then(response => {
+function callStandupReports (teamname) {
+  return azure.download().then(response => {
     var json = JSON.parse(response)
     linq.from(json.teams).forEach(function (team) {
-      notifyTeamMembers(team)
+      if (team.name === teamname) {
+        notifyTeamMembers(team)
+      }
     })
   })
 }
