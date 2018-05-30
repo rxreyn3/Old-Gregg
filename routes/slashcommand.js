@@ -11,31 +11,39 @@ router.post('/', function (req, res) {
   console.log('Request Body', req.body)
 
   if (req.body.text === undefined) {
-    sendResponse(res, quotes())
+    sendInChannelResponse(res, quotes())
   } else if (req.body.text.startsWith('init')) {
     handleInitCommand().then(data => {
-      sendResponse(res, data)
+      sendEphemeralResponse(res, data)
     })
   } else if (req.body.text.startsWith('show')) {
     handleShowCommand().then(data => {
-      sendResponse(res, data)
+      sendInChannelResponse(res, data)
     })
   } else if (req.body.text.startsWith('add')) {
     handleAddCommand(req.body.text).then(data => {
-      sendResponse(res, data)
+      sendInChannelResponse(res, data)
     })
   } else if (req.body.text.startsWith('report')) {
     handleReportCommand(req.body.user_name, req.body.user_id, req.body.text).then(data => {
-      sendResponse(res, data)
+      sendEphemeralResponse(res, data)
     })
   } else {
-    sendResponse(res, quotes())
+    sendInChannelResponse(res, quotes())
   }
 })
 
-function sendResponse (res, data) {
+function sendInChannelResponse (res, data) {
   var message = {
     response_type: 'in_channel', // public to the channel
+    text: data
+  }
+  res.json(message)
+}
+
+function sendEphemeralResponse (res, data) {
+  var message = {
+    response_type: 'ephemeral', // public to the channel
     text: data
   }
   res.json(message)
