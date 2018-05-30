@@ -136,8 +136,8 @@ function handleReportCommand (username, userid, commandText) {
       var message = commandText.replace('report ', '')
       webChat(team.channel, '`' + username + '` Has the following report: ```' + message + '```')
       resolve(quotes())
-    }).catch(reason => {
-      reject(reason)
+    }).catch(err => {
+      reject(err.message)
     })
   }).catch(reason => {
     return reason
@@ -171,14 +171,18 @@ function findChannelForUser (userid) {
   return new Promise((resolve, reject) => {
     azure.download().then(response => {
       var json = JSON.parse(response)
-      linq.from(json.teams).forEach(function (team) {
-        var exists = linq.from(team.members).any(function (member) { return member.userid === userid })
+      var team
+      linq.from(json.teams).forEach(function (t) {
+        var exists = linq.from(t.members).any(function (member) { return member.userid === userid })
         if (exists) {
-          resolve(team)
-        } else {
-          reject(new Error('Unable to locate member in team.'))
+          team = t
         }
       })
+      if (team !== undefined) {
+        resolve(team)
+      } else {
+        reject(new Error(`Unable to locate userid ${userid}`))
+      }
     })
   })
 }
