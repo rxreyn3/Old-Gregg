@@ -9,7 +9,10 @@ var web = new WebClient(token)
 
 router.post('/', function (req, res) {
   console.log('Request Body', req.body)
-  if (req.body.text.startsWith('init')) {
+
+  if (req.body.text === undefined) {
+    sendResponse(res, quotes())
+  } else if (req.body.text.startsWith('init')) {
     handleInitCommand().then(data => {
       sendResponse(res, data)
     })
@@ -26,7 +29,7 @@ router.post('/', function (req, res) {
       sendResponse(res, data)
     })
   } else {
-    sendResponse(res, req.body)
+    sendResponse(res, quotes())
   }
 })
 
@@ -152,7 +155,21 @@ function quotes () {
     'Don\'t lie to me, boy.',
     'I know what you\'re thinkin. Here comes Old Greg, he\'s a scaly manfish. You don\'t know me. You don\'t know what I got. I got somethin to show ya.',
     'Greg\'s place. Y-you\'ve been asleep, do you want a little drinky? I\'ll get ya a drink.',
-    'Do ya like Bailey\'s? Mmm, creamy, salty cream and beige.'
+    'Do ya like Bailey\'s? Mmm, creamy, salty cream and beige.',
+    'You seen my downstairs mix-up.',
+    'Easy now my fuzzy little man peach',
+    'Some say Old Gregg is like a.. a big fish finger. But big like as in a garage. Imagine a fish finger as big as a garage!',
+    'And this ones as close as you can get to Baileys without gettin\' your eyes wet.',
+    'I do watercolors.',
+    'We could do some watercolors together. You and I.',
+    'Do you love me?',
+    'You think you could ever love me?',
+    'You know me, hmm? What about the boat times?',
+    'Could you learn to love me?',
+    'You love me and you\'ve seen me and you know me. I\'m Old Gregg!',
+    'You must love me exactly as I love you.',
+    'Maybe I\'ll deal with it the way I dealt with Curly Jefferson!',
+    'Are you playing your love games with me?'
   ]
   var item = quotes[Math.floor(Math.random() * quotes.length)]
   return item
